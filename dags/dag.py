@@ -8,6 +8,7 @@ from helpers import SqlQueries
 
 # AWS_KEY = os.environ.get('AWS_KEY')
 # AWS_SECRET = os.environ.get('AWS_SECRET')
+start_date = datetime.utcnow()
 
 default_args = {
     'owner': 'vanducng',
@@ -19,11 +20,11 @@ default_args = {
     'email_on_retry': False
 }
 
-dag = DAG('udac_example_dag',
+dag = DAG('sparkify_dag',
           default_args=default_args,
           description='Load and transform data in Redshift with Airflow',
           schedule_interval='0 * * * *',
-          max_active_run=3
+          max_active_run=3,
           )
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
@@ -32,11 +33,14 @@ stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
     dag=dag,
     provide_context=True,
-    aws_credentials_id='asw_credentials',
-    redshift_conn_id='redshift',
-    s3_bucket='udacity-dend-airflow-test',
-    s3_key='log_data',
-    table='staging_events'
+    table="events",
+    redshift_conn_id="redshift",
+    aws_credentials_id="aws_credentials",
+    s3_bucket="udacity-dend",
+    s3_key="log_data",
+    region="us-west-2",
+    file_format="JSON",
+    execution_date=start_date
 )
 
 stage_songs_to_redshift = StageToRedshiftOperator(
@@ -105,11 +109,12 @@ run_quality_checks = DataQualityOperator(
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
+start_operator >> stage_events_to_redshift
 
-start_operator >> [stage_events_to_redshift, stage_songs_to_redshift]
-[stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table
-load_songplays_table >> [load_song_dimension_table, load_user_dimension_table,
-                         load_artist_dimension_table, load_time_dimension_table]
-[load_song_dimension_table, load_user_dimension_table,
-    load_artist_dimension_table, load_time_dimension_table] >> run_quality_checks
-run_quality_checks >> end_operator
+# start_operator >> [stage_events_to_redshift, stage_songs_to_redshift]
+# [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table
+# load_songplays_table >> [load_song_dimension_table, load_user_dimension_table,
+#                          load_artist_dimension_table, load_time_dimension_table]
+# [load_song_dimension_table, load_user_dimension_table,
+#     load_artist_dimension_table, load_time_dimension_table] >> run_quality_checks
+# run_quality_checks >> end_operator

@@ -6,3 +6,13 @@ plugins/\.DS_Store
 plugins/helpers/\.DS_Store
 
 plugins/operators/\.DS_Store
+
+*.log
+
+plugins/__pycache__/
+
+plugins/helpers/__pycache__/
+
+plugins/operators/__pycache__/
+
+dags/__pycache__/
