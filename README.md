@@ -1,20 +1,24 @@
 # Data-Pipelines
 ## Introduction
 
-A music streaming startup, Sparkify, has grown their user base and song database even more and want to move their data warehouse to a data lake. Their data resides in S3, in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app
+A music streaming company, Sparkify, has decided that it is time to introduce more automation and monitoring to their data warehouse ETL pipelines and come to the conclusion that the best tool to achieve this is Apache Airflow.
+
+They have decided to bring you into the project and expect you to create high grade data pipelines that are dynamic and built from reusable tasks, can be monitored, and allow easy backfills. They have also noted that the data quality plays a big part when analyses are executed on top the data warehouse and want to run tests against their datasets after the ETL steps have been executed to catch any discrepancies in the datasets.
+
+The source data resides in S3 and needs to be processed in Sparkify's data warehouse in Amazon Redshift. The source datasets consist of CSV logs that tell about user activity in the application and JSON metadata about the songs the users listen to.
 
 ## Project Description
 This project will implement the data process pipeline as below diagram. Music application logs reside on AWS S3 in either JSON or CSV format. Data pipe is constructed as DAG components and orchestrated by Airflow. This block is reponsible for gather data from S3, perform stage raw data, transform dimensional & fact table before feeding into Redshift Data warehouse. 
 
 <p align="center">
-    <image src="./images/DataArchitechture.png" width="80%">
-    <div align="center">Data pipeline overview</div>
+    <image src="./images/DataArchitechture.png" width="70%">
+    <div align="center">Data pipeline</div>
 </p>
 
 The detail DAG diagram is presented in below figure.
 <p align="center">
     <image src="./images/DAG Flow.png" width="80%">
-    <div align="center">Data pipeline overview</div>
+    <div align="center">DAG Diagram</div>
 </p>
 
 
@@ -25,12 +29,13 @@ The detail DAG diagram is presented in below figure.
     ```
 - Setup environment and run aiflow web-server: 
     ```bash
-        $ cd project_workspace
-        $ EXPORT AIRFLOW_HOME=`pwd`
-        $ airflow initdb
-        $ airflow webserver
+    $ cd project_workspace # where your dags & plugins folder located
+    $ EXPORT AIRFLOW_HOME=`pwd`
+    $ airflow initdb
+    $ airflow webserver
     ```
-- File in repository
+
+## Files in repository
     ```bash      .
     ├── airflow.cfg
     ├── airflow.db
@@ -60,3 +65,7 @@ The detail DAG diagram is presented in below figure.
     * `load_dimension.py`: load the dimensional tables including: songs, artists, time and user into Redshift.
     * `load_fact.py`: load the fact table for song information based on staging event & song table.
     * `stage_redshift.py`: inital load raw data from S3 into staging table.
+
+## Dataset used in S3
+* Log data: `s3://udacity-dend/log_data`
+* Song data: `s3://udacity-dend/song_data`
