@@ -36,8 +36,7 @@ The detail DAG diagram is presented in below figure.
     ```
 
 ## Files in repository
-
-    ```bash      .
+    .
     ├── airflow.cfg
     ├── airflow.db
     ├── airflow-webserver.pid
@@ -57,7 +56,6 @@ The detail DAG diagram is presented in below figure.
     │       ├── load_fact.py
     │       └── stage_redshift.py
     └── README.md
-    ```
 
 * `dag.py`: the main program to control the DAG components
 * `sql_queries.py`: contains SQL queries used for data transform, extract and load to Redshift
