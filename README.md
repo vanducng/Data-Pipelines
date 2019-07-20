@@ -18,7 +18,7 @@ The detail DAG diagram is presented in below figure.
 </p>
 
 
-## Environment setup
+## Environment setup and execution
 - Install apache-airflow version 1.10.2, the latest 1.10.3 got a bug of not displaying task schedule.
     ```python
     pip install apache-airflow==1.10.2
@@ -53,4 +53,10 @@ The detail DAG diagram is presented in below figure.
     └── README.md
 
     ```
-
+    * `dag.py`: the main program to control the DAG components
+    * `sql_queries.py`: contains SQL queries used for data transform, extract and load to Redshift
+    * `create_tables.py` & `create_tables.sql`: used for initial setup for creating new tables on Redshift
+    * `data_quality.py`: verify the data quality and raise the error once occured to ensure the data pipline is working in correct manner.
+    * `load_dimension.py`: load the dimensional tables including: songs, artists, time and user into Redshift.
+    * `load_fact.py`: load the fact table for song information based on staging event & song table.
+    * `stage_redshift.py`: inital load raw data from S3 into staging table.
