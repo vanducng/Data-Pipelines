@@ -8,7 +8,7 @@ class CreateTablesOperator(BaseOperator):
     uni_color = '#358140'
     sql_file_path = "create_table.sql"
 
-    @apply_dsefaults
+    @apply_defaults
     def __init__(self,
                  redshift_conn_id="",
                  *arg, **kwargs):

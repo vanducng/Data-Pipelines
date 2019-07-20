@@ -2,9 +2,11 @@ from datetime import datetime, timedelta
 import os
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
-                               LoadDimensionOperator, DataQualityOperator, CreateTablesOperator)
+from operators import (StageToRedshiftOperator, LoadFactOperator,
+                       LoadDimensionOperator, DataQualityOperator, CreateTablesOperator)
+
 from helpers import SqlQueries
+
 
 # AWS_KEY = os.environ.get('AWS_KEY')
 # AWS_SECRET = os.environ.get('AWS_SECRET')
@@ -24,7 +26,7 @@ dag = DAG('sparkify_dag',
           default_args=default_args,
           description='Load and transform data in Redshift with Airflow',
           schedule_interval='0 * * * *',
-          max_active_run=3,
+          max_active_runs=3
           )
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
