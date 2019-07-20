@@ -36,6 +36,7 @@ The detail DAG diagram is presented in below figure.
     ```
 
 ## Files in repository
+
     ```bash      .
     ├── airflow.cfg
     ├── airflow.db
@@ -56,15 +57,15 @@ The detail DAG diagram is presented in below figure.
     │       ├── load_fact.py
     │       └── stage_redshift.py
     └── README.md
-
     ```
-    * `dag.py`: the main program to control the DAG components
-    * `sql_queries.py`: contains SQL queries used for data transform, extract and load to Redshift
-    * `create_tables.py` & `create_tables.sql`: used for initial setup for creating new tables on Redshift
-    * `data_quality.py`: verify the data quality and raise the error once occured to ensure the data pipline is working in correct manner.
-    * `load_dimension.py`: load the dimensional tables including: songs, artists, time and user into Redshift.
-    * `load_fact.py`: load the fact table for song information based on staging event & song table.
-    * `stage_redshift.py`: inital load raw data from S3 into staging table.
+
+* `dag.py`: the main program to control the DAG components
+* `sql_queries.py`: contains SQL queries used for data transform, extract and load to Redshift
+* `create_tables.py` & `create_tables.sql`: used for initial setup for creating new tables on Redshift
+* `data_quality.py`: verify the data quality and raise the error once occured to ensure the data pipline is working in correct manner.
+* `load_dimension.py`: load the dimensional tables including: songs, artists, time and user into Redshift.
+* `load_fact.py`: load the fact table for song information based on staging event & song table.
+* `stage_redshift.py`: inital load raw data from S3 into staging table.
 
 ## Dataset used in S3
 * Log data: `s3://udacity-dend/log_data`
