@@ -29,6 +29,13 @@ dag = DAG('sparkify_dag',
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
 
+create_redshift_tables = CreateTablesOperator(
+    task_id="Create_tables",
+    dag=dag,
+    redshift_conn_id="redshift"
+)
+
+
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
     dag=dag,
@@ -47,6 +54,7 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     task_id='Stage_songs',
     dag=dag,
     provide_context=True,
+    table="songs",
     aws_credentials_id="aws_credentials",
     redshift_conn_id='redshift',
     s3_bucket="udacity-dend-airflow-test",
