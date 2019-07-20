@@ -25,5 +25,4 @@ class LoadDimensionOperator(BaseOperator):
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         if self.truncate:
             redshift.run(f"TRUNCATE TABLE {self.table}")
-        formatted_sql = self.sql_query.format(self.table)
-        redshift.run(formatted_sql)
+        redshift.run(self.sql_query)
