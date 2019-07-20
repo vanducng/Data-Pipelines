@@ -14,7 +14,8 @@ start_date = datetime.utcnow()
 
 default_args = {
     'owner': 'vanducng',
-    'start_date': datetime(2019, 1, 12),
+    'start_date': datetime(2018, 5, 1),
+    'end_date': datetime(2018, 11, 30),
     'depends_on_past': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
@@ -37,17 +38,16 @@ create_redshift_tables = CreateTablesOperator(
     redshift_conn_id="redshift"
 )
 
-
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
     dag=dag,
     provide_context=True,
-    table="events",
+    table="staging_events",
     redshift_conn_id="redshift",
     aws_credentials_id="aws_credentials",
     s3_bucket="udacity-dend",
     s3_key="log_data",
-    region="us-west-2",
+    region="ap-southeast-1",
     file_format="JSON",
     execution_date=start_date
 )
@@ -60,7 +60,10 @@ stage_songs_to_redshift = StageToRedshiftOperator(
     aws_credentials_id="aws_credentials",
     redshift_conn_id='redshift',
     s3_bucket="udacity-dend-airflow-test",
-    s3_key="song_data"
+    s3_key="song_data",
+    region="ap-southeast-1",
+    file_format="JSON",
+    execution_date=start_date
 )
 
 load_songplays_table = LoadFactOperator(
