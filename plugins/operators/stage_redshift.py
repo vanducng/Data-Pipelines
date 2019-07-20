@@ -29,6 +29,7 @@ class StageToRedshiftOperator(BaseOperator):
         self.execution_date = kwargs.get('execution_date')
 
     def execute(self, context):
+        self.log.info("Staging to redshift...")
         aws_hook = AwsHook(self.aws_credentials_id)
         credentials = aws_hook.get_credentials()
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)

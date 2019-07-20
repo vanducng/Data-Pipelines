@@ -20,6 +20,7 @@ class DataQualityOperator(BaseOperator):
         self.tables = tables
 
     def execute(self, context):
+        self.log.info("Checking quality...")
         redshift_hook = PostgresHook(self.redshift_conn_id)
         for table in self.tables:
             records = redshift_hook.get_records(

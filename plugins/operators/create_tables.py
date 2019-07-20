@@ -16,10 +16,9 @@ class CreateTablesOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
 
     def execute(self, context):
-        redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
-
         self.log.info("Creating tables...")
 
+        redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         sql_file = ""
         with open(CreateTablesOperator.sql_file_path, 'r') as f:
             sql_file = f.read()
