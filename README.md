@@ -34,6 +34,19 @@ The detail DAG diagram is presented in below figure.
     $ airflow initdb
     $ airflow webserver
     ```
+- DAG default settings:
+    ```bash
+    default_args = {
+    'owner': 'vanducng',
+    'start_date': datetime(2018, 5, 1),
+    'end_date': datetime(2018, 11, 30),
+    'depends_on_past': False,
+    'retries': 3,
+    'retry_delay': timedelta(minutes=5),
+    'catchup': False,
+    'email_on_retry': False
+    }
+    ```
 
 ## Files in repository
     .
